@@ -1,8 +1,9 @@
 import axios from "axios";
-
+import { updateDB } from "../firebase";
 let initialData = {
 	fetching: false,
 	array: [],
+	favorites: [],
 	current: {},
 };
 
@@ -11,6 +12,7 @@ let GET_CHARACTERS = "GET_CHARACTERS";
 let GET_CHARACTERS_SUCESS = "GET_CHARACTERS_SUCESS";
 let GET_CHARACTERS_ERROR = "GET_CHARACTERS_ERROR";
 let REMOVE_CHARACTER = "REMOVE_CHARACTER";
+let ADD_FAVORITE_CHARACTER = "ADD_FAVORITE_CHARACTER";
 
 const reducer = (state = initialData, action) => {
 	switch (action.type) {
@@ -22,6 +24,8 @@ const reducer = (state = initialData, action) => {
 			return { ...state, array: action.payload, fetching: false };
 		case GET_CHARACTERS_ERROR:
 			return { ...state, fetching: false, error: action.payload };
+		case ADD_FAVORITE_CHARACTER:
+			return { ...state, ...action.payload };
 		default:
 			return state;
 	}
@@ -30,6 +34,23 @@ const reducer = (state = initialData, action) => {
 export default reducer;
 
 //actions (thunks)
+export const addToFavoritesAction = () => {
+	return (dispatch, getState) => {
+		let { array, favorites } = getState().chars;
+		console.log(getState().user);
+		let { user } = getState().user;
+		console.log(user);
+		let char = array.shift();
+		favorites.push(char);
+
+		updateDB(favorites, user);
+
+		dispatch({
+			type: ADD_FAVORITE_CHARACTER,
+			payload: { array: [...array], favorites: [...favorites] },
+		});
+	};
+};
 
 export const removeCharacterAction = () => {
 	return (dispatch, getState) => {
