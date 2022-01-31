@@ -3,18 +3,21 @@ import Card from "../card/Card";
 import styles from "./home.module.css";
 import { connect } from "react-redux";
 
-import { removeCharacterAction } from "../../redux/chars";
+import { removeCharacterAction, addToFavoritesAction } from "../../redux/chars";
 
-const Home = ({ chars, removeCharacterAction }) => {
+const Home = ({ chars, removeCharacterAction, addToFavoritesAction }) => {
 	function renderCharacter() {
 		let char = chars[0];
 		console.log(chars);
-		return <Card leftClick={nextChar} {...char} />;
+		return <Card rightClick={addFavChar} leftClick={nextChar} {...char} />;
 	}
 	function nextChar() {
 		removeCharacterAction();
 	}
 
+	function addFavChar() {
+		addToFavoritesAction();
+	}
 	return (
 		<div className={styles.container}>
 			<h2>Personajes de Rick y Morty</h2>
@@ -29,4 +32,7 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { removeCharacterAction })(Home);
+export default connect(mapStateToProps, {
+	addToFavoritesAction,
+	removeCharacterAction,
+})(Home);

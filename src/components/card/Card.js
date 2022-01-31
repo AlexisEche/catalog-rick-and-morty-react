@@ -11,23 +11,25 @@ function onClick(side) {
 	return () => console.log(side);
 }
 
-export default function Card({ name, image, rightClick, leftClick }) {
+export default function Card({ name, image, rightClick, leftClick, hide }) {
 	return (
 		<div className={styles.container}>
 			<div className={styles.card}>
 				<img alt="rick" src={image} />
 				<p className={styles.name}>{name}</p>
-				<div className={styles.actions}>
-					<div onClick={leftClick || onClick("left")} className={styles.left}>
-						<FontAwesomeIcon icon={faThumbsDown} size="2x" />
+				{!hide && (
+					<div className={styles.actions}>
+						<div onClick={leftClick || onClick("left")} className={styles.left}>
+							<FontAwesomeIcon icon={faThumbsDown} size="2x" />
+						</div>
+						<div
+							onClick={rightClick || onClick("right")}
+							className={styles.right}
+						>
+							<FontAwesomeIcon icon={faHeart} size="2x" />
+						</div>
 					</div>
-					<div
-						onClick={rightClick || onClick("right")}
-						className={styles.right}
-					>
-						<FontAwesomeIcon icon={faHeart} size="2x" />
-					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	);
