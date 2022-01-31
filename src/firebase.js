@@ -1,5 +1,14 @@
 import { initializeApp } from "firebase/app";
 import {
+	collection,
+	addDoc,
+	doc,
+	deleteDoc,
+	updateDoc,
+	setDoc,
+	getFirestore,
+} from "firebase/firestore";
+import {
 	GoogleAuthProvider,
 	getAuth,
 	signInWithPopup,
@@ -19,9 +28,14 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+let db = getFirestore(app);
 
 export const signOutGoogle = async () => {
 	return await signOut(auth);
+};
+
+export const updateDB = async (array, uid) => {
+	return await setDoc(doc(db, "favs", uid), { favorites: [...array] });
 };
 
 export const loginWithGoogle = async () => {
