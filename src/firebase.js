@@ -7,7 +7,9 @@ import {
 	updateDoc,
 	setDoc,
 	getFirestore,
+	getDocs,
 } from "firebase/firestore";
+
 import {
 	GoogleAuthProvider,
 	getAuth,
@@ -32,6 +34,12 @@ let db = getFirestore(app);
 
 export const signOutGoogle = async () => {
 	return await signOut(auth);
+};
+
+export const getFavorites = async (uid) => {
+	return await getDocs(collection(db, "favs", uid)).then((res) =>
+		console.log(res)
+	);
 };
 
 export const updateDB = async (array, uid) => {
