@@ -8,6 +8,7 @@ import {
 	setDoc,
 	getFirestore,
 	getDocs,
+	getDoc,
 } from "firebase/firestore";
 
 import {
@@ -37,9 +38,10 @@ export const signOutGoogle = async () => {
 };
 
 export const getFavorites = async (uid) => {
-	return await getDocs(collection(db, "favs", uid)).then((res) =>
-		console.log(res)
-	);
+	return await getDoc(doc(db, "favs", uid)).then((res) => {
+		localStorage.setItem("favorites", JSON.stringify(res.data().favorites));
+		return res.data().favorites;
+	});
 };
 
 export const updateDB = async (array, uid) => {
