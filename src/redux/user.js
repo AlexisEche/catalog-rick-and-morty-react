@@ -1,4 +1,5 @@
 import { loginWithGoogle, signOutGoogle } from "../firebase";
+import { retreiveFavs } from "./chars";
 
 let initialData = {
 	loggedIn: false,
@@ -58,7 +59,7 @@ export const doGoogleLoginAction = () => {
 			type: LOGIN,
 		});
 
-		loginWithGoogle()
+		return loginWithGoogle()
 			.then((user) => {
 				dispatch({
 					type: LOGIN_SUCCESS,
@@ -71,6 +72,7 @@ export const doGoogleLoginAction = () => {
 				});
 
 				saveStorage(getState());
+				retreiveFavs()(dispatch, getState);
 			})
 			.catch((error) => {
 				dispatch({

@@ -3,6 +3,7 @@ import { Routes as Rout, Route, Navigate } from "react-router-dom";
 import Home from "./components/home/HomePage";
 import FavPage from "./components/favs/FavPage";
 import LoginPage from "./components/login/LoginPage";
+
 const PrivateRoute = ({ children }) => {
 	let storage = localStorage.getItem("storage");
 	storage = JSON.parse(storage);
